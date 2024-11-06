@@ -1,7 +1,0 @@
-[build]
-  functions = "functions"
-
-[[redirects]]
-  from = "/generate-ical"
-  to = "/.netlify/functions/generateIcal"
-  status = 200
