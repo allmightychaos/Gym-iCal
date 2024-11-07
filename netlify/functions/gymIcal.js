@@ -15,7 +15,7 @@ const schedule = [
 ];
 
 // Netlify function to generate the .ical file
-export async function handler() {
+exports.handler = async function () {
       try {
             const calendar = ical({ name: 'Gym Training Schedule' });
             const startDate = new Date(2024, 10, 6);
