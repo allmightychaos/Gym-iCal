@@ -1,5 +1,8 @@
 const ical = require('ical-generator').default || require('ical-generator');
 const { addDays, addYears, isBefore } = require('date-fns');
+const { zonedTimeToUtc } = require('date-fns-tz');
+
+const CEST_TIMEZONE = 'Europe/Berlin';
 
 const schedule = [
     { name: 'Push (Chest / Triceps / Shoulders)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
@@ -26,8 +29,8 @@ exports.handler = async function () {
             const currentDay = i % schedule.length;
             const { name, location } = schedule[currentDay];
 
-            const start = name.includes('Rest Day') ? eventDate : new Date(eventDate.setHours(6, 0));
-            const end = name.includes('Rest Day') ? eventDate : new Date(eventDate.setHours(7, 30));
+            const start = name.includes('Rest Day') ? eventDate : zonedTimeToUtc(new Date(eventDate.setHours(6, 0)), CEST_TIMEZONE);
+            const end = name.includes('Rest Day') ? eventDate : zonedTimeToUtc(new Date(eventDate.setHours(7, 30)), CEST_TIMEZONE);            
 
             // Add the event only if it's on or after today's date
             if (!isBefore(eventDate, startDate)) {
