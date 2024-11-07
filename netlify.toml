@@ -1,0 +1,15 @@
+[functions]
+directory = "netlify/functions"
+
+[[redirects]]
+from = "/"
+to = "/.netlify/functions/gymIcal"
+status = 200
+
+[[redirects]]
+from = "/gymIcal"
+to = "/.netlify/functions/gymIcal"
+status = 200
+
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"
