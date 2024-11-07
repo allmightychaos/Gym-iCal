@@ -1,7 +1,6 @@
 const ical = require('ical-generator').default || require('ical-generator');
 const { addDays } = require('date-fns');
 
-// Define the 9-day workout schedule
 const schedule = [
       { name: 'Push (Chest / Triceps / Shoulders)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
       { name: 'Pull (Back / Biceps / Forearms)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
@@ -14,7 +13,6 @@ const schedule = [
       { name: 'Rest Day 2', location: '' },
 ];
 
-// Netlify function to generate the .ical file
 exports.handler = async function () {
       try {
             const calendar = ical({ name: 'Gym Training Schedule' });
