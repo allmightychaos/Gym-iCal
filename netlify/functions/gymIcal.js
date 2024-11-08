@@ -1,6 +1,8 @@
 const ical = require('ical-generator').default || require('ical-generator');
 const { addDays, addYears, isBefore } = require('date-fns');
 
+const CEST_TIMEZONE = 'Europe/Vienna';
+
 const schedule = [
     { name: 'Push (Chest / Triceps / Shoulders)'},
     { name: 'Pull (Back / Biceps / Forearms)'},
