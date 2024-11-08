@@ -39,6 +39,7 @@ exports.handler = async function () {
                     end,
                     summary: name,
                     allDay: name.includes('Rest Day'),
+                    timezone: CEST_TIMEZONE,
                 });
             }
 
