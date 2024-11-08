@@ -1,53 +1,48 @@
 const ical = require('ical-generator').default || require('ical-generator');
-const { addDays, addYears, isBefore, addHours } = require('date-fns');
-
-const CEST_OFFSET = 2; // CEST is UTC+2
+const { addDays, addYears, isBefore } = require('date-fns');
 
 const schedule = [
-    { name: 'Push (Chest / Triceps / Shoulders)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
-    { name: 'Pull (Back / Biceps / Forearms)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
-    { name: 'Legs (Quads only)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
-    { name: 'Rest Day', location: '' },
-    { name: 'ChestBack (Chest / Back)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
-    { name: 'Sharms (Shoulder / Arms)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
-    { name: 'Legs (Hamstrings, Abductors, Adductors, Calves)', location: 'FITINN Fitnessstudio, Wr. Str. 127, 2700 Wiener Neustadt' },
-    { name: 'Rest Day 1', location: '' },
-    { name: 'Rest Day 2', location: '' },
+    { name: 'Push (Chest / Triceps / Shoulders)'},
+    { name: 'Pull (Back / Biceps / Forearms)'},
+    { name: 'Legs (Quads only)'},
+    { name: 'Rest Day'},
+    { name: 'ChestBack (Chest / Back)'},
+    { name: 'Sharms (Shoulder / Arms)'},
+    { name: 'Legs (Hamstrings, Abductors, Adductors, Calves)'},
+    { name: 'Rest Day 1'},
+    { name: 'Rest Day 2'},
 ];
 
 exports.handler = async function () {
     try {
-        const calendar = ical({ name: 'Gym Training Schedule' });
-        const startDate = new Date();  // Start from the current date
-        const endDate = addYears(startDate, 1);  // One year from the current date
+        const calendar = ical({ name: 'Gym' });
+        const startDate = new Date('2024-11-06T06:00:00'); // Set to Nov 6th, 6 AM
+        const endDate = addYears(startDate, 1); // Until Nov 7th next year
 
         let i = 0;
         let eventDate = startDate;
 
         while (isBefore(eventDate, endDate)) {
             const currentDay = i % schedule.length;
-            const { name, location } = schedule[currentDay];
+            const { name } = schedule[currentDay];
 
-            // Adjust times for CEST (UTC+2)
-            const start = name.includes('Rest Day')
-                ? eventDate
-                : addHours(new Date(eventDate.setHours(6, 0)), CEST_OFFSET);
-            
-            const end = name.includes('Rest Day')
-                ? eventDate
-                : addHours(new Date(eventDate.setHours(7, 30)), CEST_OFFSET);
+            const start = new Date(eventDate);
+            start.setHours(6, 0, 0, 0);
 
-            // Add the event only if it's on or after today's date
+            const end = new Date(eventDate);
+            end.setHours(7, 30, 0, 0);
+
+            // Generate an event if it's on or after the start date
             if (!isBefore(eventDate, startDate)) {
                 calendar.createEvent({
                     start,
                     end,
                     summary: name,
-                    location,
                     allDay: name.includes('Rest Day'),
                 });
             }
 
+            // Increment by one day
             i++;
             eventDate = addDays(startDate, i);
         }
