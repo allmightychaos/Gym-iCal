@@ -2,7 +2,7 @@ const ical = require('ical-generator').default || require('ical-generator');
 const { addDays, addYears, isBefore } = require('date-fns');
 
 const CEST_TIMEZONE = 'Europe/Vienna';
-const startDate = '23.11.2024' // Enter start date, regular format
+const rawStartDate = '23.11.2024'; // Enter start date, regular format
 
 const schedule = [
     { name: 'Push (Chest / Triceps / Shoulders)'},
@@ -19,9 +19,10 @@ const schedule = [
 exports.handler = async function () {
     try {
         const calendar = ical({ name: 'Gym' });
-        
-        startDate = startDate.split('.').reverse().join('-');
-        startDate = new Date(startDate);
+
+        // Parse the start date into a new variable
+        const parsedStartDate = rawStartDate.split('.').reverse().join('-');
+        const startDate = new Date(parsedStartDate);
         startDate.setHours(6, 0, 0, 0);
 
         const endDate = addYears(startDate, 1); // Nov 7th next year
