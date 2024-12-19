@@ -2,16 +2,15 @@ const ical = require('ical-generator').default || require('ical-generator');
 const { addDays, addYears, isBefore } = require('date-fns');
 
 const CEST_TIMEZONE = 'Europe/Vienna';
-const rawStartDate = '02.12.2024'; // Enter start date, regular format
+const rawStartDate = '23.12.2024'; 
 
 const schedule = [
-    { name: 'Push'},
-    { name: 'Pull'},
-    { name: 'Legs 1'},
+    { name: 'Upper'},
+    { name: 'Lower'},
     { name: 'Rest Day'},
-    { name: 'ChestBack'},
-    { name: 'Sharms'},
-    { name: 'Legs 2'},
+    { name: 'Chest & Arms'},
+    { name: 'Lower & Back'},
+    { name: 'Rest Day'},
     { name: 'Rest Day'},
 ];
 
