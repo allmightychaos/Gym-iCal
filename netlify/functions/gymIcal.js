@@ -5,13 +5,13 @@ const CEST_TIMEZONE = 'Europe/Vienna';
 const rawStartDate = '14.04.2025'; 
 
 const schedule = [
-    { name: 'Brust & Arme'},
-    { name: 'Rücken'},
-    { name: 'Beine #1'},
-    { name: 'Oberkörper'},
-    { name: 'Beine #2'},
-    { name: 'Rest Day'},
-    { name: 'Rest Day'},
+    { name: 'Unterkörper'},     // Montag
+    { name: 'Oberkörper'},      // Dienstag
+    { name: 'Ruhetag'},         // Mittwoch
+    { name: 'Beine'},           // Donnerstag
+    { name: 'Rücken'},          // Freitag
+    { name: 'Chest & Arms'},    // Samstag
+    { name: 'Ruhetag'},         // Sonntag
 ];
 
 exports.handler = async function () {
