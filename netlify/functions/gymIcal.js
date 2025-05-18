@@ -43,7 +43,7 @@ exports.handler = async function () {
                     start,
                     end,
                     summary: name,
-                    allDay: name.includes('Rest Day'),
+                    allDay: name.includes('Ruhetag'),
                     timezone: CEST_TIMEZONE,
                 });
             }
