@@ -1,28 +1,28 @@
-const ical = require('ical-generator').default || require('ical-generator');
-const { addDays, addYears, isBefore } = require('date-fns');
+const ical = require("ical-generator").default || require("ical-generator");
+const { addDays, addYears, isBefore } = require("date-fns");
 
-const CEST_TIMEZONE = 'Europe/Vienna';
-const rawStartDate = '14.04.2025'; 
+const CEST_TIMEZONE = "Europe/Vienna";
+const rawStartDate = "14.04.2025";
 
 const schedule = [
-    { name: 'Unterkörper'},     // Montag
-    { name: 'Oberkörper'},      // Dienstag
-    { name: 'Ruhetag'},         // Mittwoch
-    { name: 'Beine'},           // Donnerstag
-    { name: 'Rücken'},          // Freitag
-    { name: 'Chest & Arms'},    // Samstag
-    { name: 'Ruhetag'},         // Sonntag
+    { name: "Oberkörper" }, // Montag
+    { name: "Unterkörper" }, // Dienstag
+    { name: "Ruhetag" }, // Mittwoch
+    { name: "Oberkörper" }, // Donnerstag
+    { name: "Unterkörper" }, // Freitag
+    { name: "Ruhetag" }, // Samstag
+    { name: "Ruhetag" }, // Sonntag
 ];
 
 exports.handler = async function () {
     try {
-        const calendar = ical({ name: 'Gym' });
+        const calendar = ical({ name: "Gym" });
 
-        const parsedStartDate = rawStartDate.split('.').reverse().join('-');
+        const parsedStartDate = rawStartDate.split(".").reverse().join("-");
         const startDate = new Date(parsedStartDate);
         startDate.setHours(6, 0, 0, 0);
 
-        const endDate = addYears(startDate, 1); 
+        const endDate = addYears(startDate, 1);
 
         let i = 0;
         let eventDate = startDate;
@@ -43,7 +43,7 @@ exports.handler = async function () {
                     start,
                     end,
                     summary: name,
-                    allDay: name.includes('Ruhetag'),
+                    allDay: name.includes("Ruhetag"),
                     timezone: CEST_TIMEZONE,
                 });
             }
@@ -56,8 +56,9 @@ exports.handler = async function () {
         return {
             statusCode: 200,
             headers: {
-                'Content-Type': 'text/calendar',
-                'Content-Disposition': 'attachment; filename="gym-schedule.ics"',
+                "Content-Type": "text/calendar",
+                "Content-Disposition":
+                    'attachment; filename="gym-schedule.ics"',
             },
             body: calendar.toString(),
         };
