@@ -5,13 +5,13 @@ const CEST_TIMEZONE = "Europe/Vienna";
 const rawStartDate = "14.04.2025";
 
 const schedule = [
-    { name: "Oberkörper" }, // Montag
-    { name: "Unterkörper" }, // Dienstag
-    { name: "Ruhetag" }, // Mittwoch
-    { name: "Oberkörper" }, // Donnerstag
-    { name: "Unterkörper" }, // Freitag
-    { name: "Ruhetag" }, // Samstag
-    { name: "Ruhetag" }, // Sonntag
+    { name: "Torso" }, // Montag
+    { name: "Limbs" }, // Dienstag
+    { name: "Sharms" }, // Mittwoch
+    { name: "Torso" }, // Donnerstag
+    { name: "Limbs" }, // Freitag
+    { name: "Rest" }, // Samstag
+    { name: "Rest" }, // Sonntag
 ];
 
 exports.handler = async function () {
@@ -43,7 +43,7 @@ exports.handler = async function () {
                     start,
                     end,
                     summary: name,
-                    allDay: name.includes("Ruhetag"),
+                    allDay: name.includes("Rest"),
                     timezone: CEST_TIMEZONE,
                 });
             }
