@@ -5,11 +5,11 @@ const CEST_TIMEZONE = "Europe/Vienna";
 const rawStartDate = "14.04.2025";
 
 const schedule = [
-    { name: "Torso" }, // Montag
-    { name: "Limbs" }, // Dienstag
-    { name: "Sharms" }, // Mittwoch
-    { name: "Torso" }, // Donnerstag
-    { name: "Limbs" }, // Freitag
+    { name: "Brust, Rücken, Bizeps" }, // Montag
+    { name: "Beine, Trizeps" }, // Dienstag
+    { name: "Schulter, Unterarme / Cardio" }, // Mittwoch
+    { name: "Brust, Rücken" }, // Donnerstag
+    { name: "Beine, Trizeps" }, // Freitag
     { name: "Rest" }, // Samstag
     { name: "Rest" }, // Sonntag
 ];
@@ -35,7 +35,7 @@ exports.handler = async function () {
             start.setHours(6, 0, 0, 0);
 
             const end = new Date(eventDate);
-            end.setHours(7, 30, 0, 0);
+            end.setHours(7, 15, 0, 0);
 
             // Generate an event if it's on or after the start date
             if (!isBefore(eventDate, startDate)) {
