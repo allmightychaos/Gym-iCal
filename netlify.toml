@@ -11,5 +11,15 @@ from = "/gymIcal"
 to = "/.netlify/functions/gymIcal"
 status = 200
 
+[[redirects]]
+from = "/gym-ical"
+to = "/.netlify/functions/gymIcal"
+status = 200
+
+[[redirects]]
+from = "/gym-json"
+to = "/.netlify/functions/gymJson"
+status = 200
+
 [[plugins]]
 package = "@netlify/plugin-functions-install-core"

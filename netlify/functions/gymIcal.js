@@ -1,26 +1,26 @@
 const ical = require("ical-generator").default || require("ical-generator");
 const { addDays, addYears, isBefore } = require("date-fns");
-
-const CEST_TIMEZONE = "Europe/Vienna";
-const rawStartDate = "14.04.2025";
-
-const schedule = [
-    { name: "Brust, Rücken, Bizeps" }, // Montag
-    { name: "Beine, Trizeps" }, // Dienstag
-    { name: "Schulter, Unterarme / Cardio" }, // Mittwoch
-    { name: "Brust, Rücken" }, // Donnerstag
-    { name: "Beine, Trizeps" }, // Freitag
-    { name: "Rest" }, // Samstag
-    { name: "Rest" }, // Sonntag
-];
+const {
+    TZ,
+    startDateStr,
+    startMinutes,
+    endMinutes,
+    calendarName,
+    schedule,
+} = require("./shared");
 
 exports.handler = async function () {
     try {
-        const calendar = ical({ name: "Gym" });
+        const calendar = ical({ name: calendarName });
 
-        const parsedStartDate = rawStartDate.split(".").reverse().join("-");
+        const parsedStartDate = startDateStr.split(".").reverse().join("-");
         const startDate = new Date(parsedStartDate);
-        startDate.setHours(6, 0, 0, 0);
+        startDate.setHours(
+            Math.floor(startMinutes / 60),
+            startMinutes % 60,
+            0,
+            0
+        );
 
         const endDate = addYears(startDate, 1);
 
@@ -29,26 +29,29 @@ exports.handler = async function () {
 
         while (isBefore(eventDate, endDate)) {
             const currentDay = i % schedule.length;
-            const { name } = schedule[currentDay];
+            const name = schedule[currentDay];
 
             const start = new Date(eventDate);
-            start.setHours(6, 0, 0, 0);
+            start.setHours(
+                Math.floor(startMinutes / 60),
+                startMinutes % 60,
+                0,
+                0
+            );
 
             const end = new Date(eventDate);
-            end.setHours(7, 15, 0, 0);
+            end.setHours(Math.floor(endMinutes / 60), endMinutes % 60, 0, 0);
 
-            // Generate an event if it's on or after the start date
             if (!isBefore(eventDate, startDate)) {
                 calendar.createEvent({
                     start,
                     end,
                     summary: name,
                     allDay: name.includes("Rest"),
-                    timezone: CEST_TIMEZONE,
+                    timezone: TZ,
                 });
             }
 
-            // Increment by one day
             i++;
             eventDate = addDays(startDate, i);
         }
@@ -64,9 +67,6 @@ exports.handler = async function () {
         };
     } catch (error) {
         console.error("Error generating iCal file:", error);
-        return {
-            statusCode: 500,
-            body: "Internal Server Error",
-        };
+        return { statusCode: 500, body: "Internal Server Error" };
     }
 };
